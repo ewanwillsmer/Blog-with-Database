@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect('mongodb://localhost/blogDB', {useNewUrlParser: true useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost/blogDB', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const postSchema = new mongoose.Schema({
   title: String,
@@ -29,7 +29,7 @@ const Post = mongoose.model("Post", postSchema);
 
 app.get("/", function(req, res){
 
-  Post.find({}, function(err, foundPosts){
+  Post.find({}, function(err, posts){
       res.render("home", {
         startingContent: homeStartingContent,
         posts: posts
@@ -50,6 +50,10 @@ app.get("/compose", function(req, res){
   res.render("compose");
 });
 
+app.post("/home", function (req, res){
+  res.redirect("/compose");
+})
+
 app.post("/compose", function(req, res){
 
   const post = new Post ({
@@ -68,7 +72,7 @@ app.get("/posts/:postId", function(req, res){
 
   const requestedPostId = req.params.postId;
 
-  Post.findOne({_id: requestedPostId}, function(err){
+  Post.findOne({_id: requestedPostId}, function(err, post){
     res.render("post", {
       title: post.title,
       content: post.content
