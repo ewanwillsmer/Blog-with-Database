@@ -1,4 +1,4 @@
-# Blog
+# Daily Journal
 
 Here is a simple blogging app I created during The App Brewery's "The Complete 2020 Web Development Bootcamp".
 
